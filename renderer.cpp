@@ -24,26 +24,24 @@ GLfloat planeVertices[] = {
 	-1.0f,  1.0f, 0.0f
 };
 
-const char vertexShaderSrc[] =
-	"#version 300 es                                                          \n"
-	"uniform float zoom;                                                      \n"
-	"uniform float aspect;                                                    \n"
-	"in vec4 vert;                                                            \n"
-	"out vec2 texCoord;                                                       \n"
-	"void main() {                                                            \n"
-	"   gl_Position = vec4(vert.x * zoom, vert.y * aspect * zoom, 0.0f, 1.0f);\n"
-	"   texCoord = vec2((vert.x + 1.0f) / 2.0f, (1.0f - vert.y) / 2.0);       \n"
-	"}                                                                        \n";
+const std::string vertexShaderSrc = R"(#version 300 es
+uniform float zoom;
+uniform float aspect;
+in vec4 vert;
+out vec2 texCoord;
+void main() {
+   gl_Position = vec4(vert.x * zoom, vert.y * aspect * zoom, 0.0f, 1.0f);
+   texCoord = vec2((vert.x + 1.0f) / 2.0f, (1.0f - vert.y) / 2.0);
+})";
 
-const char fragmentShaderSrc[] =
-	"#version 300 es                        \n"
-	"precision mediump float;               \n"
-	"uniform sampler2D tex;                 \n"
-	"in vec2 texCoord;                      \n"
-	"out vec4 finalColor;                   \n"
-	"void main() {                          \n"
-	"   finalColor = texture(tex, texCoord);\n"
-	"}                                      \n";
+const std::string fragmentShaderSrc = R"(#version 300 es
+precision mediump float;
+uniform sampler2D tex;
+in vec2 texCoord;
+out vec4 finalColor;
+void main() {
+   finalColor = texture(tex, texCoord);
+})";
 
 GLuint compileShader(GLenum type, const char *source) {
 	GLuint shader = glCreateShader(type);
@@ -104,8 +102,8 @@ int initializeOpenGL(int width, int height)
 		return 1;
 	}
 
-	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSrc);
-	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSrc);
+	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSrc.c_str());
+	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSrc.c_str());
 	program = buildProgram(vertexShader, fragmentShader, "vert");
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
