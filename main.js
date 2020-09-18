@@ -3,7 +3,7 @@ const ImageViewer = {};
   'use strict';
 
   function Program(container, canvas) {
-    const init = Module.initializeOpenGL(canvas.width, canvas.height);
+    const init = Module._initializeOpenGL(canvas.width, canvas.height);
     this.zoom = 1.0;
     this._setupDragDrop();
     this._setupMouseWheel(canvas);
@@ -11,7 +11,7 @@ const ImageViewer = {};
   };
 
   Program.prototype._invalidate = function () {
-    window.requestAnimationFrame(() => Module.render(this.zoom));
+    window.requestAnimationFrame(() => Module._render(this.zoom));
   }
 
   Program.prototype._setupMouseWheel = function(canvas) {
@@ -66,7 +66,7 @@ const ImageViewer = {};
     const dataPtr = Module._malloc(numBytes);
     const dataOnHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, numBytes);
     dataOnHeap.set(imageData);
-    const didLoad = Module.loadJPEGImage(dataOnHeap.byteOffset, imageData.length);
+    const didLoad = Module._loadJPEGImage(dataOnHeap.byteOffset, imageData.length);
     Module._free(dataPtr);
     console.log('[Copy to Heap (Cwrap)] Time to load: ' + (new Date() - startTime));
 
