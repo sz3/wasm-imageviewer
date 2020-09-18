@@ -87,7 +87,7 @@ extern "C" {
 int initializeOpenGL(int width, int height)
 {
 	if (_window)
-		return 2;
+		return 1;
 
 	if (glfwInit() != GL_TRUE)
 	{
@@ -99,7 +99,7 @@ int initializeOpenGL(int width, int height)
 	if (!_window)
 	{
 		glfwTerminate();
-		return 1;
+		return 0;
 	}
 
 	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSrc.c_str());
