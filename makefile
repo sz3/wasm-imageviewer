@@ -1,8 +1,7 @@
 CC=emcc
 SRC=renderer.cpp
 CFLAGS=-Werror -std=c++11 -Os -g0
-EMSCRIPTEN_FLAGS=-s DEMANGLE_SUPPORT=1 \
-        --bind -Os \
+EMSCRIPTEN_FLAGS=--bind -Os \
         -s SINGLE_FILE=1 \
         -s FULL_ES2=1 \
         -s USE_WEBGL2=1 \
